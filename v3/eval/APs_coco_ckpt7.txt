@@ -1,0 +1,2 @@
+AP for foreground = 0.4495
+mAP = 0.4495
