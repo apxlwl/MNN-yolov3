@@ -20,7 +20,7 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
 7. Run cpp execution.
 
 ## Result Comparison
-- Testing Result in Tensorflow(left) and MNN(right).   
+- Testing Result in Tensorflow(top) and MNN(down).   
 ![Result of Tensorflow](v3/004650_detected.jpg)
 ![Result of Tensorflow](MNN-demo/004650_MNN.jpg)
 
@@ -42,5 +42,7 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
 
 ## Reference
 [stronger-yolo](https://github.com/Stinky-Tofu/Stronger-yolo)
+
 [MNN](https://github.com/alibaba/MNN)
+
 [NCNN](https://github.com/Tencent/ncnn)
