@@ -203,6 +203,10 @@ int main(int argc, const char *argv[]) {
         ratio = std::min(1.0 * input_H / ori_height, 1.0 * input_W / ori_width);
         int resize_height = int(ori_height * ratio);
         int resize_width = int(ori_width * ratio);
+        //odd number->pad size error
+        if (resize_height%2!=0) resize_height-=1;
+        if (resize_width%2!=0) resize_width-=1;
+
         pad_W = int((input_W - resize_width) / 2);
         pad_H = int((input_H - resize_height) / 2);
         cv::Scalar pad(128, 128, 128);
