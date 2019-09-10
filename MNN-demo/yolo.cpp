@@ -36,6 +36,13 @@ using std::cin;
 using std::endl;
 using std::cout;
 
+static const char *class_names[] = {
+        "aeroplane", "bicycle", "bird", "boat",
+        "bottle", "bus", "car", "cat", "chair",
+        "cow", "diningtable", "dog", "horse",
+        "motorbike", "person", "pottedplant",
+        "sheep", "sofa", "train", "tvmonitor"};
+
 struct Object {
     cv::Rect_<float> rect;
     int label;
@@ -119,12 +126,6 @@ static void nms_sorted_bboxes(const std::vector<Object> &objects, std::vector<in
 }
 
 static cv::Mat draw_objects(const cv::Mat &rgb, const std::vector<Object> &objects) {
-    static const char *class_names[] = {
-            "aeroplane", "bicycle", "bird", "boat",
-            "bottle", "bus", "car", "cat", "chair",
-            "cow", "diningtable", "dog", "horse",
-            "motorbike", "person", "pottedplant",
-            "sheep", "sofa", "train", "tvmonitor"};
 
     cv::Mat image = rgb.clone();
     cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
@@ -166,6 +167,8 @@ int main(int argc, const char *argv[]) {
     }
     const float NMS_THRES = 0.45f;
     const float CONF_THRES = 0.2f;
+    const int num_category=int(class_names.size());
+
     timeval startime, endtime;
     int pad_W, pad_H;
     double ratio;
@@ -182,15 +185,7 @@ int main(int argc, const char *argv[]) {
     int input_W=shape[2];
     net->resizeTensor(input, shape);
     net->resizeSession(session);
-    std::vector<std::string> words;
 
-    if (argc >= 4) {
-        std::ifstream inputOs(argv[3]);
-        std::string line;
-        while (std::getline(inputOs, line)) {
-            words.emplace_back(line);
-        }
-    }
     //Image Preprocessing
     {
         gettimeofday(&startime, nullptr);
@@ -261,15 +256,15 @@ int main(int argc, const char *argv[]) {
         std::vector<int> tempcls;
 
         for (int i = 0; i < OUTPUT_NUM; ++i) {
-            auto prob = tempValues[i * 25 + 4];
-            auto maxcls = std::max_element(tempValues.begin() + i * 25 + 5, tempValues.begin() + i * 25 + 25);
-            auto clsidx = maxcls - (tempValues.begin() + i * 25 + 5);
+            auto prob = tempValues[i * (5+num_category) + 4];
+            auto maxcls = std::max_element(tempValues.begin() + i * (5+num_category) + 5, tempValues.begin() + i * (5+num_category) + (5+num_category));
+            auto clsidx = maxcls - (tempValues.begin() + i * (5+num_category) + 5);
             auto score = prob * (*maxcls);
             if (score < CONF_THRES) continue;
-            auto xmin = (tempValues[i * 25 + 0] - pad_W) / ratio;
-            auto xmax = (tempValues[i * 25 + 2] - pad_W) / ratio;
-            auto ymin = (tempValues[i * 25 + 1] - pad_H) / ratio;
-            auto ymax = (tempValues[i * 25 + 3] - pad_H) / ratio;
+            auto xmin = (tempValues[i * (5+num_category) + 0] - pad_W) / ratio;
+            auto xmax = (tempValues[i * (5+num_category) + 2] - pad_W) / ratio;
+            auto ymin = (tempValues[i * (5+num_category) + 1] - pad_H) / ratio;
+            auto ymax = (tempValues[i * (5+num_category) + 3] - pad_H) / ratio;
 
             Object obj;
             obj.rect = cv::Rect_<float>(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
