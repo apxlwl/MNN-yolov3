@@ -36,7 +36,7 @@ using std::cin;
 using std::endl;
 using std::cout;
 
-static const char *class_names[] = {
+static std::vector<std::string> class_names = {
         "aeroplane", "bicycle", "bird", "boat",
         "bottle", "bus", "car", "cat", "chair",
         "cow", "diningtable", "dog", "horse",
@@ -138,7 +138,7 @@ static cv::Mat draw_objects(const cv::Mat &rgb, const std::vector<Object> &objec
         cv::rectangle(image, obj.rect, cv::Scalar(255, 0, 0));
 
         char text[256];
-        sprintf(text, "%s %.1f%%", class_names[obj.label], obj.prob * 100);
+        sprintf(text, "%s %.1f%%", class_names[obj.label].c_str(), obj.prob * 100);
 
         int baseLine = 0;
         cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, &baseLine);
