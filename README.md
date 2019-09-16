@@ -19,12 +19,16 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
 6. Copy MNN-demo/yolo.cpp in to {MNN dir}/demo/exec and  Modify {MNN dir}/demo/exec/CmakeLists.txt like MNN-demo/CmakeLists.txt.
 7. Run cpp execution.
 ## Quantitative Analysis 
-Note: Inference time is tested using MNN official Test Tool with scorethreshold 0.2 And **0.7849** is the original tensorflow result. All **map** results are evaluated using the first 300 testing images in order to save time.
+Note:  
+1.Inference time is tested using MNN official Test Tool with scorethreshold 0.2 And **0.7849** is the original tensorflow result.  
+2.All **MAP** results are evaluated using the first 300 testing images in order to save time.  
+3.**-quant** model is quantized using official MNN tool. The poor inference speed is due to arm-specified optimization. Check [this](https://github.com/alibaba/MNN/issues/213).
 
-Model|InputSize|Thread|Inference(ms)|MAP(VOC)|
-| ------ | ------ | ------ | ------ | ------ |
-Yolov3|544|4/6/8| 2962/2975/3043|0.7803(**0.7849**)|
-Yolov3|320|4/6/8|828/668/821|0.7127(**0.7249**)|
+Model|InputSize|Thread|Inference(ms)|Params|MAP(VOC)|
+| ------ | ------ | ------ | ------ | ------ |------ |
+Yolov3|544|4/6/8| 2962/2975/3043|27M|0.7803(**0.7849**)|
+Yolov3|320|4/6/8|828/668/821|27M|0.7127(**0.7249**)|
+Yolov3-quant|320|4/6/8|1636/1445/1472|7.7M|0.7082(**0.7249**)|
 
 ## Qualitative Comparison
 - Testing Result in Tensorflow(top) and MNN(down).   

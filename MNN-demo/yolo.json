@@ -1,0 +1,19 @@
+{
+    "format":"RGB",
+    "mean":[
+        0.0,
+        0.0,
+        0.0
+    ],
+    "normal":[
+        0.00392,
+        0.00392,
+        0.00392
+    ],
+    "width":320,
+    "height":320,
+    "path":"/home/gwl/datasets/VOCdevkit/VOC2007/JPEGImages",
+    "used_image_num":1000,
+    "feature_quantize_method":"KL",
+    "weight_quantize_method":"MAX_ABS"
+}
