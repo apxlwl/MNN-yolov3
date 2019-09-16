@@ -47,8 +47,8 @@ Yolov3-quant|320|4/6/8|1636/1445/1472|7.7M|0.7082(**0.7249**)|
     ```
 
 ## TODO
-- [ ] Speed analyse.
-- [ ] Model Quantization.
+- [x] Speed analyse.
+- [x] Model Quantization.
 - [ ] Android Support.  
 
 ## Reference
