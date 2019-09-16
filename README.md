@@ -19,7 +19,7 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
 6. Copy MNN-demo/yolo.cpp in to {MNN dir}/demo/exec and  Modify {MNN dir}/demo/exec/CmakeLists.txt like MNN-demo/CmakeLists.txt.
 7. Run cpp execution.
 ## Quantitative Analysis 
-Note: Inference time is tested using MNN official Test Tool with scorethreshold 0.2 And **0.7849** is the original tensorflow result.
+Note: Inference time is tested using MNN official Test Tool with scorethreshold 0.2 And **0.7849** is the original tensorflow result. All **map** results are evaluated using the first 300 testing images in order to save time.
 
 Model|InputSize|Thread|Inference(ms)|MAP(VOC)|
 | ------ | ------ | ------ | ------ | ------ |
