@@ -18,6 +18,22 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
     ```
 6. Copy MNN-demo/yolo.cpp in to {MNN dir}/demo/exec and  Modify {MNN dir}/demo/exec/CmakeLists.txt like MNN-demo/CmakeLists.txt.
 7. Run cpp execution.
+
+## Important Notes during model converting 
+
+1. Replace v3/model/head/build_nework with build_nework_MNN, which replaces tf.shape with static inputshape and replace 
+    ```
+    [:, tf.newaxis] -> tf.expand_dims // currently strided_slice op is not very well supported in MNN.
+    ```
+~~2. Following [this issue](https://github.com/onnx/tensorflow-onnx/issues/77#issue-342137999) to remove/replace some op.~~  
+~~3. Remove condition op which is related to BatchNormalization and training Flag. Otherwise it will cause MNN converting failure.~~
+    ```
+    Identity's input node num. != 1
+    ```   
+    
+**Update: 2019-9-24**  
+Don't bother to adjust op carefully. Just follow [this](https://github.com/wlguan/MNN-yolov3/blob/master/v3/model/layers.py#L35-L37) to replace nn.batch_normalization with nn.fused_batch_norm. After this modification we can also merge BN,Relu in MNN.  
+
 ## Quantitative Analysis 
 Note:  
 1.Inference time is tested using MNN official Test Tool with scorethreshold 0.2 And **0.7849** is the original tensorflow result.  
@@ -35,20 +51,7 @@ Yolov3-quant|320|2/4|316.2/225.2|6.7M|0.7082(**0.7249**)|
 ![Result of Tensorflow](v3/004650_detected.jpg)
 ![Result of Tensorflow](MNN-demo/004650_MNN.jpg)
 
-## Important Notes during model converting 
 
-1. Replace v3/model/head/build_nework with build_nework_MNN, which replaces tf.shape with static inputshape and replace 
-    ```
-    [:, tf.newaxis] -> tf.expand_dims // currently strided_slice op is not very well supported in MNN.
-    ```
-~~2. Following [this issue](https://github.com/onnx/tensorflow-onnx/issues/77#issue-342137999) to remove/replace some op.~~  
-~~3. Remove condition op which is related to BatchNormalization and training Flag. Otherwise it will cause MNN converting failure.~~
-    ```
-    Identity's input node num. != 1
-    ```   
-    
-**Update: 2019-9-24**  
-Don't bother to adjust op carefully. Just follow [this](https://github.com/wlguan/MNN-yolov3/blob/master/v3/model/layers.py#L35-L37) to replace nn.batch_normalization with nn.fused_batch_norm. After this modification we can also merge BN,Relu in MNN.
 ## TODO
 - [x] Speed analyse.
 - [x] Model Quantization.
