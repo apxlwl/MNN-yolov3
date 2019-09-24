@@ -21,17 +21,20 @@ def batch_normalization(input_data, input_c, training, decay=0.9):
         moving_variance = tf.get_variable(name='moving_variance', shape=input_c, dtype=tf.float32,
                                           initializer=tf.ones_initializer, trainable=False)
         
-        def mean_and_var_update():
-            axes = (0, 1, 2)
-            batch_mean = tf.reduce_mean(input_data, axis=axes)
-            batch_var = tf.reduce_mean(tf.pow(input_data - batch_mean, 2), axis=axes)
-            with tf.control_dependencies([tf.assign(moving_mean, moving_mean * decay + batch_mean * (1 - decay)),
-                                          tf.assign(moving_variance,
-                                                    moving_variance * decay + batch_var * (1 - decay))]):
-                return tf.identity(batch_mean), tf.identity(batch_var)
-        
-        mean, variance = tf.cond(training, mean_and_var_update, lambda: (moving_mean, moving_variance))
-        return tf.nn.batch_normalization(input_data, mean, variance, beta, gamma, 1e-05)
+        # def mean_and_var_update():
+        #     axes = (0, 1, 2)
+        #     batch_mean = tf.reduce_mean(input_data, axis=axes)
+        #     batch_var = tf.reduce_mean(tf.pow(input_data - batch_mean, 2), axis=axes)
+        #     with tf.control_dependencies([tf.assign(moving_mean, moving_mean * decay + batch_mean * (1 - decay)),
+        #                                   tf.assign(moving_variance,
+        #                                             moving_variance * decay + batch_var * (1 - decay))]):
+        #         return tf.identity(batch_mean), tf.identity(batch_var)
+        #
+        # mean, variance = tf.cond(training, mean_and_var_update, lambda: (moving_mean, moving_variance))
+        # return tf.nn.batch_normalization(input_data, mean, variance, beta, gamma, 1e-05)
+        output, _, _ = tf.nn.fused_batch_norm(x=input_data, mean=moving_mean, variance=moving_variance, offset=beta,
+                                              scale=gamma, epsilon=1e-05, name='bn', is_training=False)
+        return output
 
 
 def group_normalization(input_data, input_c, num_group=32, eps=1e-5):

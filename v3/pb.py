@@ -69,7 +69,7 @@ def freeze_graph(checkpoint_path, output_node_names, savename):
                 print node.name, node.input
         print("%d ops in the final graph." % len(output_graph_def.node))
 
-
+###optional
 def freezed_graph_optimize(pb_path, output_node_names):
     tf.reset_default_graph()
     with tf.Graph().as_default():
@@ -137,8 +137,8 @@ def freeze_graph_test(pb_path, outnode):
                 del node.attr['half_pixel_centers']
         tf.import_graph_def(output_graph_def, name="")
         with tf.Session() as sess:
-            summary_writer = tf.summary.FileWriter('mylog/new2')
-            summary_writer.add_graph(tf.get_default_graph())
+            # summary_writer = tf.summary.FileWriter('mylog/new2')
+            # summary_writer.add_graph(tf.get_default_graph())
             sess.run(tf.global_variables_initializer())
             img = cv2.imread('004650.jpg')
             originimg=img
@@ -155,8 +155,8 @@ def freeze_graph_test(pb_path, outnode):
 
 
 if __name__ == '__main__':
-    savename = 'yolov3'
+    savename = 'voc{}'.format(INPUTSIZE)
     outnodes = "YoloV3/output/boxconcat"
     freeze_graph(checkpoint_path='weights/yolo.ckpt-60-0.7911', output_node_names=outnodes, savename='%s.pb'%savename)
-    freezed_graph_optimize('port/%s.pb'%savename,outnodes)
-    freeze_graph_test('port/%s_opti_fc.pb' % savename, outnodes)
+    # freezed_graph_optimize('port/%s.pb'%savename,outnodes)
+    freeze_graph_test('port/%s.pb' % savename, outnodes)

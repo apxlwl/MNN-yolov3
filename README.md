@@ -26,9 +26,9 @@ Note:
 
 Model|InputSize|Thread|Inference(ms)|Params|MAP(VOC)|
 | ------ | ------ | ------ | ------ | ------ |------ |
-Yolov3|544|2/4/6| 783/736/744|27M|0.7803(**0.7849**)|
-Yolov3|320|2/4/6|218/204/205|27M|0.7127(**0.7249**)|
-Yolov3-quant|320|2/4/6|424/314/276|7.7M|0.7082(**0.7249**)|
+Yolov3|544|2/4| 112/75.1|26M|0.7803(**0.7849**)|
+Yolov3|320|2/4|38.6/24.2|26M|0.7127(**0.7249**)|
+Yolov3-quant|320|2/4|316.2/225.2|6.7M|0.7082(**0.7249**)|
 
 ## Qualitative Comparison
 - Testing Result in Tensorflow(top) and MNN(down).   
@@ -36,19 +36,23 @@ Yolov3-quant|320|2/4/6|424/314/276|7.7M|0.7082(**0.7249**)|
 ![Result of Tensorflow](MNN-demo/004650_MNN.jpg)
 
 ## Important Notes during model converting 
-1. Following [this issue](https://github.com/onnx/tensorflow-onnx/issues/77#issue-342137999) to remove/replace some op.
-2. Remove condition op which is related to BatchNormalization and training Flag. Otherwise it will cause MNN converting failure.
-    ```
-    Identity's input node num. != 1
-    ```
-3. Replace v3/model/head/build_nework with build_nework_MNN, which replaces tf.shape with static inputshape and replace 
+
+1. Replace v3/model/head/build_nework with build_nework_MNN, which replaces tf.shape with static inputshape and replace 
     ```
     [:, tf.newaxis] -> tf.expand_dims // currently strided_slice op is not very well supported in MNN.
     ```
-
+~~2. Following [this issue](https://github.com/onnx/tensorflow-onnx/issues/77#issue-342137999) to remove/replace some op.~~  
+~~3. Remove condition op which is related to BatchNormalization and training Flag. Otherwise it will cause MNN converting failure.~~
+    ```
+    Identity's input node num. != 1
+    ```   
+    
+**Update: 2019-9-24**  
+Don't bother to adjust op carefully. Just follow [this](https://github.com/wlguan/MNN-yolov3/blob/master/v3/model/layers.py#L35-L37) to replace nn.batch_normalization with nn.fused_batch_norm. After this modification we can also merge BN,Relu in MNN.
 ## TODO
 - [x] Speed analyse.
 - [x] Model Quantization.
+- [x] Op Integration. (BN,Relu->Convolution)
 - [ ] Android Support.  
 
 ## Reference
