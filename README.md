@@ -19,6 +19,18 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
 6. Copy MNN-demo/yolo.cpp in to {MNN dir}/demo/exec and  Modify {MNN dir}/demo/exec/CmakeLists.txt like MNN-demo/CmakeLists.txt.
 7. Run cpp execution.
 
+## Quantitative Analysis 
+Note:  
+1.Inference time is tested using MNN official Test Tool with scorethreshold 0.2 And **0.7849** is the original tensorflow result.  
+2.All **MAP** results are evaluated using the first 300 testing images in order to save time.  
+3.**-quant** model is quantized using official MNN tool. The poor inference speed is due to arm-specified optimization. Check [this](https://github.com/alibaba/MNN/issues/213).
+
+Model|InputSize|Thread|Inference(ms)|Params|MAP(VOC)|
+| ------ | ------ | ------ | ------ | ------ |------ |
+Yolov3|544|2/4| 112/75.1|26M|0.7803(**0.7849**)|
+Yolov3|320|2/4|38.6/24.2|26M|0.7127(**0.7249**)|
+Yolov3-quant|320|2/4|316.2/225.2|6.7M|0.7082(**0.7249**)|
+
 ## Important Notes during model converting 
 
 1. Replace v3/model/head/build_nework with build_nework_MNN, which replaces tf.shape with static inputshape and replace 
@@ -32,19 +44,8 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
     ```   
     
 **Update: 2019-9-24**  
-Don't bother to adjust op carefully. Just follow [this](https://github.com/wlguan/MNN-yolov3/blob/master/v3/model/layers.py#L35-L37) to replace nn.batch_normalization with nn.fused_batch_norm. After this modification we can also merge BN,Relu in MNN.  
+Don't bother to adjust op carefully. Just follow [this](https://github.com/wlguan/MNN-yolov3/blob/master/v3/model/layers.py#L35-L37) to replace nn.batch_normalization with nn.fused_batch_norm. After this modification we can also merge BN,Relu into convolution directly in MNN.  
 
-## Quantitative Analysis 
-Note:  
-1.Inference time is tested using MNN official Test Tool with scorethreshold 0.2 And **0.7849** is the original tensorflow result.  
-2.All **MAP** results are evaluated using the first 300 testing images in order to save time.  
-3.**-quant** model is quantized using official MNN tool. The poor inference speed is due to arm-specified optimization. Check [this](https://github.com/alibaba/MNN/issues/213).
-
-Model|InputSize|Thread|Inference(ms)|Params|MAP(VOC)|
-| ------ | ------ | ------ | ------ | ------ |------ |
-Yolov3|544|2/4| 112/75.1|26M|0.7803(**0.7849**)|
-Yolov3|320|2/4|38.6/24.2|26M|0.7127(**0.7249**)|
-Yolov3-quant|320|2/4|316.2/225.2|6.7M|0.7082(**0.7249**)|
 
 ## Qualitative Comparison
 - Testing Result in Tensorflow(top) and MNN(down).   
