@@ -48,16 +48,18 @@ Don't bother to adjust op carefully. Just follow [this](https://github.com/wlgua
 
 
 ## Qualitative Comparison
-- Testing Result in Tensorflow(top) and MNN(down).   
-![Result of Tensorflow](v3/004650_detected.jpg)
-![Result of Tensorflow](MNN-demo/004650_MNN.jpg)
+- Testing Result in Tensorflow(top), MNN(middle), and Android phone(bottom).   
+![Result of Tensorflow](assets/tensorflow/004650_detected.jpg)
+![Result of Tensorflow](assets/mnn/004650_MNN.jpg)
+![Result of Tensorflow](assets/android/004650.jpg)
 
 
 ## TODO
 - [x] Speed analyse.
 - [x] Model Quantization.
 - [x] Op Integration. (BN,Relu->Convolution)
-- [ ] Android Support.  
+- [x] Android Support.
+- [ ] Channel Pruning/ Weight Sparsification  ...  
 
 ## Reference
 [stronger-yolo](https://github.com/Stinky-Tofu/Stronger-yolo)
