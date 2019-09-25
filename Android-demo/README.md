@@ -13,4 +13,4 @@ note: test on HUAWEI Mate20 using voc320_quant.mnn, numThread=2.
 ![Result of android](../assets/android/cat.jpg)
 
 ## TODO
--[ ] Video Mode Support.
+- [ ] Video Mode Support.
