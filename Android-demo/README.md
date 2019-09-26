@@ -1,4 +1,5 @@
 # Simple Android Demo based on official Android Demo
+A prebuilt apk(armv8a) is [available](https://pan.baidu.com/s/1uYoqX3peVPKoxDcMP5Zv7Q)  提取码: 6rpc 
 ## Quick Start 
 1. cd **assets** directory.
     ```
