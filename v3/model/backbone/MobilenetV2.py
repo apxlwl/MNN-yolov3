@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import tensorflow as tf
-from model.layers import *
+from v3.model.layers import *
 
 
 def MobilenetV2(input_data, training):

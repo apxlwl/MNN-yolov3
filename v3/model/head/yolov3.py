@@ -1,11 +1,11 @@
 # coding:utf-8
 
-import config as cfg
+import v3.config as cfg
 import numpy as np
 import tensorflow as tf
-from model.layers import *
-from model.backbone.MobilenetV2 import MobilenetV2
-from utils import tools
+from v3.model.layers import *
+from v3.model.backbone.MobilenetV2 import MobilenetV2
+from v3.utils import tools
 
 
 class YOLOV3(object):
