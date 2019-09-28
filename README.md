@@ -3,7 +3,7 @@
 ## Introduction
 MNN demo of YOLOv3(converted from Stronger-Yolo). 
 
-## Quick Start 
+## Quick Start (cpp)
 1. Install [MNN](https://github.com/alibaba/MNN) following the corresponding guide. 
 2. Setup an environment following [Stronger-Yolo](https://github.com/Stinky-Tofu/Stronger-yolo).
 3. run v3/pb.py to convert tensorflow checkpoint into portable model.
@@ -14,10 +14,26 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
 5. Converting model (remember to build convert tools first)
     ``` bash
     cd {MNN dir}/tools/converter/build/
-    ./MNNConvert -f TF --modelFile {MNN-yolov3 project dir}/v3/port/yolov3_opti_fc.pb --MNNModel yolo_opti_fc.mnn --bizCode MNN
+    ./MNNConvert -f TF --modelFile {MNN-yolov3 project dir}/v3/port/coco544.pb --MNNModel coco544.mnn --bizCode MNN
     ```
 6. Copy MNN-demo/yolo.cpp in to {MNN dir}/demo/exec and  Modify {MNN dir}/demo/exec/CmakeLists.txt like MNN-demo/CmakeLists.txt.
 7. Run cpp execution.
+
+## Quick Start (python) **Update: 2019-9-28**  
+1. Install [MNN-python](https://www.yuque.com/mnn/cn/dmqa3z) following the corresponding guide. 
+2. Setup an environment following [Stronger-Yolo](https://github.com/Stinky-Tofu/Stronger-yolo).
+3. run v3/pb.py to convert tensorflow checkpoint into portable model.
+4. (optional) Fold constants using TF tools. (Recommended by MNN.)
+    ``` bash
+    bazel-bin/tensorflow/tools/graph_transforms/transform_graph --transforms=fold_constants(ignore_errors=true)
+    ```
+5. Converting model (remember to build convert tools first)
+    ``` bash
+    mnnconvert -f TF --modelFile voc544.pb --MNNModel voc544_python.mnn
+    ./MNNConvert -f TF --modelFile {MNN-yolov3 project dir}/v3/port/coco544.pb --MNNModel coco544.mnn --bizCode MNN
+    ```
+6. A python demo is under MNN-demo/demo.py
+
 
 ## Quantitative Analysis 
 Note:  
