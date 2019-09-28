@@ -30,7 +30,6 @@ MNN demo of YOLOv3(converted from Stronger-Yolo).
 5. Converting model (remember to build convert tools first)
     ``` bash
     mnnconvert -f TF --modelFile voc544.pb --MNNModel voc544_python.mnn
-    ./MNNConvert -f TF --modelFile {MNN-yolov3 project dir}/v3/port/coco544.pb --MNNModel coco544.mnn --bizCode MNN
     ```
 6. A python demo is under MNN-demo/demo.py
 
