@@ -74,7 +74,7 @@ Don't bother to adjust op carefully. Just follow [this](https://github.com/wlgua
 - [x] Model Quantization.
 - [x] Op Integration. (BN,Relu->Convolution)
 - [x] Android Support.
-- [ ] Channel Pruning/ Weight Sparsification  ...  
+- [x] Channel Pruning/ Weight Sparsification  ...  (**Update: 2019-10-26** see [stronger-yolo-pytorch](https://github.com/wlguan/Stronger-yolo-pytorch) for more detail)
 
 ## Reference
 [stronger-yolo](https://github.com/Stinky-Tofu/Stronger-yolo)
